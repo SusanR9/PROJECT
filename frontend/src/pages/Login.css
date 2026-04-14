@@ -1,0 +1,78 @@
+/* FULL SCREEN BACKGROUND */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #232f3e, #131921);
+}
+
+/* LOGIN CARD */
+.login-box {
+  background: white;
+  padding: 40px;
+  width: 350px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* LOGO */
+.logo {
+  margin-bottom: 10px;
+  color: #131921;
+}
+
+/* SUBTEXT */
+.subtitle {
+  margin-bottom: 20px;
+  color: gray;
+}
+
+/* INPUTS */
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* BUTTON */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #ff9900;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-box button:hover {
+  background: #e68a00;
+}
+
+/* EXTRA TEXT */
+.extra {
+  margin-top: 15px;
+  font-size: 14px;
+  color: gray;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

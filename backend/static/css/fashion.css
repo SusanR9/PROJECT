@@ -1,0 +1,36 @@
+body {
+    font-family: Arial;
+}
+
+.buy-btn {
+    background: #ff6b5c;
+    color: white;
+}
+.footer {
+        background-color: #2f2f2f;
+        color: #ccc;
+        padding: 60px 0;
+      }
+
+      .footer h6 {
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .footer p {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .footer a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .footer a:hover {
+        color: #fff;
+      }

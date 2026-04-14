@@ -1,0 +1,70 @@
+<div class="product">
+    <img id="p-img" width="80">
+    <div>
+        <p id="p-name"></p>
+        <span id="p-price"></span>
+    </div>
+
+<h4>Total: <span id="total">₹500</span></h4>
+
+        <!-- YOUR PAY BUTTON -->
+        <button id="pay-btn" class="btn btn-success w-80 mt-3">
+          💳 Pay Now
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- RAZORPAY SCRIPT (YOUR CODE) -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.getElementById("pay-btn").onclick = function () {
+function getCookie(name) {
+    const cookieValue = document.cookie
+        .split("; ")
+        .find(row => row.startsWith(name + "="));
+    return cookieValue ? decodeURIComponent(cookieValue.split("=")[1]) : null;
+}
+
+    fetch("/create-order/")
+document.getElementById("pay-btn").onclick = function () {
+    const csrfToken = getCookie("csrftoken");
+
+    fetch("/create-order/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken
+        },
+        credentials: "same-origin"
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        var options = {
+            "key": "{{ razorpay_key_id }}",
+            "amount": data.amount,
+            "currency": "INR",
+            "name": "My Shop",
+            "description": "Test Payment",
+            "order_id": data.id,
+
+            "handler": function (response) {
+                alert("Payment Successful!");
+                window.location.href = "/payment-success/?payment_id=" + response.razorpay_payment_id;
+            },
+
+            "prefill": {
+                "name": "Test User",
+                "email": "test@test.com",
+                "contact": "9999999999"
+            },
+
+            "theme": {
+                "color": "#3399cc"
+            }
