@@ -1,28 +1,17 @@
 import { useLocation } from "react-router-dom";
 
 const Success = () => {
-  const location = useLocation();
-
-  const query = new URLSearchParams(location.search);
+  const query = new URLSearchParams(useLocation().search);
   const paymentId = query.get("payment_id");
-  const orderId = query.get("order_id");
 
   return (
-    <div className="success-page">
-      <div className="success-card">
-        <h1>🎉 Payment Successful</h1>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Payment Successful 🎉</h1>
+      <p>Payment ID: {paymentId}</p>
 
-        <p><strong>Payment ID:</strong> {paymentId}</p>
-        <p><strong>Order ID:</strong> {orderId}</p>
-
-        <h3>Thank you for your purchase ❤️</h3>
-        <button
-  className="continue-btn"
-onClick={() => window.location.href = "/home"}
->
-  Continue Shopping 🛍️
-</button>
-      </div>
+      <a href="/home">
+        <button>Continue Shopping 🛍️</button>
+      </a>
     </div>
   );
 };

@@ -3,16 +3,16 @@ import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-// ✅ Products with images
+// ✅ Products with FIXED image paths
 const products = [
-  { id: 1, name: "Shirt", price: 500, image: "/assets/shirt.jpg" },
-  { id: 2, name: "Shoes", price: 1200, image: "/assets/shoes.jpg" },
-  { id: 3, name: "Watch", price: 800, image: "/assets/watch.jpg" },
-  { id: 4, name: "Bag", price: 1500, image: "/assets/bag.jpg" },
-  { id: 5, name: "Jacket", price: 2000, image: "/assets/jacket.jpg" },
-  { id: 6, name: "Sunglasses", price: 700, image: "/assets/sunglasses.jpg" },
-  { id: 7, name: "Shorts", price: 700, image: "/assets/shorts.jpg" },
-  { id: 8, name: "T-shirt", price: 700, image: "/assets/t-shirt.jpg" },
+  { id: 1, name: "Shirt", price: 500, image: "shirt.jpg" },
+  { id: 2, name: "Shoes", price: 1200, image: "shoes.jpg" },
+  { id: 3, name: "Watch", price: 800, image: "watch.jpg" },
+  { id: 4, name: "Bag", price: 1500, image: "bag.jpg" },
+  { id: 5, name: "Jacket", price: 2000, image: "jacket.jpg" },
+  { id: 6, name: "Sunglasses", price: 700, image: "sunglasses.jpg" },
+  { id: 7, name: "Shorts", price: 700, image: "shorts.jpg" },
+  { id: 8, name: "T-shirt", price: 700, image: "t-shirt.jpg" },
 ];
 
 const quotes = [
@@ -51,7 +51,12 @@ const Home = () => {
         {products.map((p) => (
           <div key={p.id} className="product-card">
 
-            <img src={p.image} alt={p.name} className="product-img" />
+            {/* ✅ FIXED IMAGE PATH */}
+            <img
+              src={`/static/${p.image}`}
+              alt={p.name}
+              className="product-img"
+            />
 
             <h3>{p.name}</h3>
             <p className="price">₹{p.price}</p>

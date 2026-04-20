@@ -101,8 +101,8 @@ CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173"]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
-RAZORPAY_KEY_ID = "rzp_test_Sd16DwIJ6mzKC3"
-RAZORPAY_KEY_SECRET = "EUGcGpnHCsyYPhCrNZbsPSeb"
+RAZORPAY_KEY_ID = "rzp_test_SdjIuwz4rfGR3p"
+RAZORPAY_KEY_SECRET = "bqiF6ubkYRl9dTpoMgS2bByC"
 
 CORS_ALLOW_ALL_ORIGINS = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

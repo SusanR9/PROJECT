@@ -1,11 +1,11 @@
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
-import "../App.css";
-const API_URL = "https://youruser.pythonanywhere.com";
-// ✅ Proper script loader
+import React from "react";
+
+const API_URL = "https://susanveronica96.pythonanywhere.com";
+
+// ✅ Load Razorpay script
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
-    const existing = document.querySelector("#razorpay-script");
+    const existing = document.getElementById("razorpay-script");
 
     if (existing) {
       resolve(true);
@@ -15,7 +15,6 @@ const loadRazorpayScript = () => {
     const script = document.createElement("script");
     script.id = "razorpay-script";
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
 
     script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
@@ -25,117 +24,106 @@ const loadRazorpayScript = () => {
 };
 
 const Checkout = () => {
-  const { cart } = useContext(CartContext);
-
-  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   const handlePayment = async () => {
-    console.log("PAY CLICKED");
+    // ✅ Step 1: Load Razorpay
+    const loaded = await loadRazorpayScript();
 
-    if (total === 0) {
-      alert("Cart is empty");
-      return;
-    }
-
-    // ✅ Load Razorpay first
-    const isLoaded = await loadRazorpayScript();
-
-    if (!isLoaded) {
-      alert("Razorpay failed to load");
+    if (!loaded) {
+      alert("Razorpay SDK failed to load");
       return;
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/create-order/", {
+      // ✅ Step 2: Create order
+      const orderRes = await fetch(`${API_URL}/api/create-order/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount: total }),
       });
 
-      const data = await res.json();
-      console.log("ORDER:", data);
+      const orderData = await orderRes.json();
 
-      // ✅ Validate order
-      if (!data.id) {
-        console.error("Invalid order:", data);
+      console.log("Order Data:", orderData);
+
+      if (!orderData.id) {
         alert("Order creation failed");
         return;
       }
 
+      // ✅ Step 3: Setup options
       const options = {
-        key: "rzp_test_Sd16DwIJ6mzKC3", // 🔴 replace with your real key
-        amount: data.amount,
+        key: "rzp_test_SdjIuwz4rfGR3p", // 🔥 REPLACE with your real key
+        amount: orderData.amount,
         currency: "INR",
-        order_id: data.id,
+        name: "FW Fashion",
+        description: "Order Payment",
+        order_id: orderData.id,
 
-        handler: function (response) {
-          alert("Payment Successful 🎉");
+        // ✅ THIS IS YOUR HANDLER (FIXED)
+       handler: async function (response) {
+  console.log("Razorpay response:", response); // 👈 check this
 
-          window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
+  const res = await fetch(`${API_URL}/api/verify-payment/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(response),
+  });
+
+  const data = await res.json();
+
+  if (data.status === "success") {
+    alert("✅ Payment Successful");
+  } else {
+    alert("❌ Payment Failed");
+  }
+},
+        // ✅ Handle payment failure
+        modal: {
+          ondismiss: function () {
+            alert("Payment popup closed");
+          },
+        },
+
+        theme: {
+          color: "#3399cc",
         },
       };
 
+      // ✅ Step 4: Open Razorpay
       const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+        console.error("Payment Failed:", response.error);
+        alert("❌ Payment Failed");
+      });
+
       rzp.open();
 
-    } catch (err) {
-      console.error("ERROR:", err);
-      alert("Payment failed");
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
     }
   };
 
   return (
-  <div className="checkout-page">
-
-    {/* LEFT SIDE - PRODUCTS */}
-    <div className="checkout-left">
-      <h2>Order Summary</h2>
-
-      {cart.map((item) => (
-        <div key={item.id} className="checkout-item">
-
-          <img src={item.image} alt={item.name} />
-
-          <div>
-            <h4>{item.name}</h4>
-            <p>₹{item.price} × {item.quantity}</p>
-          </div>
-
-        </div>
-      ))}
-    </div>
-
-    {/* RIGHT SIDE - PAYMENT */}
-    <div className="checkout-right">
-
-      <h2>Payment Details</h2>
-
-      <div className="price-row">
-        <span>Items Total</span>
-        <span>₹{total}</span>
-      </div>
-
-      <div className="price-row">
-        <span>Delivery</span>
-        <span className="free">FREE</span>
-      </div>
-
-      <hr />
-
-      <div className="price-row total">
-        <span>Total</span>
-        <span>₹{total}</span>
-      </div>
-
-      <button className="pay-btn" onClick={handlePayment}>
-        Proceed to Payment 💳
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h2>Checkout</h2>
+      <button
+        onClick={handlePayment}
+        style={{
+          padding: "10px 20px",
+          fontSize: "16px",
+          backgroundColor: "#3399cc",
+          color: "white",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        Pay Now
       </button>
-
     </div>
+  );
+};
 
-  </div>
-);
-}
 export default Checkout;

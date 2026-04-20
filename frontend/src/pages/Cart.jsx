@@ -17,34 +17,44 @@ const Cart = () => {
         <p className="empty">Your cart is empty</p>
       ) : (
         <>
+          {/* ✅ CART ITEMS */}
           {cart.map((item) => (
-            <div key={item.id} className="cart-card">
+            <div key={item.id} className="cart-item">
 
-              {/* IMAGE */}
-              <img src={item.image} alt={item.name} />
+              <img
+                src={
+                  item.image?.startsWith("http") || item.image?.startsWith("/static")
+                    ? item.image
+                    : `/static/${item.image}`
+                }
+                alt={item.name}
+                className="cart-img"
+              />
 
-              {/* DETAILS */}
               <div className="cart-details">
                 <h3>{item.name}</h3>
                 <p>₹{item.price}</p>
 
-                <div className="qty">
-                  <button onClick={() => decreaseQty(item.id)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => increaseQty(item.id)}>+</button>
-                </div>
+                <div className="cart-actions">
+                  <div className="qty-controls">
+                    <button onClick={() => decreaseQty(item.id)}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => increaseQty(item.id)}>+</button>
+                  </div>
 
-                <button
-                  className="remove"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  Remove
-                </button>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
 
             </div>
           ))}
 
+          {/* ✅ SUMMARY OUTSIDE MAP */}
           <div className="cart-summary">
             <h2>Total: ₹{total}</h2>
 

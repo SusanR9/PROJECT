@@ -1,12 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import Success from "./pages/Success";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import Success from "./pages/Success";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
@@ -37,10 +36,9 @@ function App() {
         <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/cart" element={<Layout><Cart /></Layout>} />
         <Route path="/checkout" element={<Layout><Checkout /></Layout>} />
-        <Route path="/success" element={<Layout><Success /></Layout>} />
         <Route path="/blog" element={<Layout><Blog /></Layout>} />
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
-
+        <Route path="/success" element={<Success />} />
       </Routes>
     </BrowserRouter>
   );

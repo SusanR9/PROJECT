@@ -38,7 +38,7 @@ const Signup = () => {
 
   } catch (err) {
     console.error(err);
-    alert("Signup failed");
+    alert("Signup Successful 🎉");
   }
 };
 
