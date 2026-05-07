@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from django.contrib import admin # type: ignore
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get(
@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() == "true"
 
 
-ALLOWED_HOSTS = ['susanveronica96.pythonanywhere.com']
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 CORS_ALLOW_ALL_ORIGINS = True 
 
@@ -22,11 +22,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "store", 
+    "store.apps.StoreConfig",
     "rest_framework",
     "corsheaders",
-    "api", 
-    "payment",  # your app in this repo
+    "api.apps.ApiConfig",
+    "payment.apps.PaymentConfig", 
+
 ]
 
 MIDDLEWARE = [
@@ -82,9 +83,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/dist"),  # 👈 React build
-]
+STATICFILES_DIRS = []
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -101,8 +100,8 @@ CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173"]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
-RAZORPAY_KEY_ID = "rzp_test_SdjIuwz4rfGR3p"
-RAZORPAY_KEY_SECRET = "bqiF6ubkYRl9dTpoMgS2bByC"
+RAZORPAY_KEY_ID = "rzp_test_SlyeZSQVRS6kuk"
+RAZORPAY_KEY_SECRET = "Qt1G3eLwSAFA8l5bHEHm69ct"
 
 CORS_ALLOW_ALL_ORIGINS = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

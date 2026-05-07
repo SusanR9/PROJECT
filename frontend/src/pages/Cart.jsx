@@ -25,7 +25,7 @@ const Cart = () => {
                 src={
                   item.image?.startsWith("http") || item.image?.startsWith("/static")
                     ? item.image
-                    : `/static/${item.image}`
+                    : `/assets/${item.image}`
                 }
                 alt={item.name}
                 className="cart-img"

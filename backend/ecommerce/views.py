@@ -1,27 +1,66 @@
-from django.http import JsonResponse # type: ignore
+import json
+import razorpay
+
+from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+
+# ✅ Home Page
 def index(request):
     return render(request, "index.html")
+
+
+# ✅ Test API
 def test_api(request):
-    return JsonResponse({"message": "Hello from Django 🚀"})
+    return JsonResponse({
+        "message": "Hello from Django 🚀"
+    })
 
-import razorpay # pyright: ignore[reportMissingImports]
-from django.conf import settings # type: ignore
-from django.http import JsonResponse # type: ignore
 
-def create_order(request):
-    client = razorpay.Client(
-        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+# ✅ Razorpay Client
+client = razorpay.Client(
+    auth=(
+        settings.RAZORPAY_KEY_ID,
+        settings.RAZORPAY_KEY_SECRET
     )
+)
 
-    data = {
-        "amount": 50000,  # ₹500 (in paise)
-        "currency": "INR",
-        "payment_capture": 1
-    }
 
-    try:
-        order = client.order.create(data=data)
-        return JsonResponse(order)
-    except Exception as e:
-        return JsonResponse({"error": str(e)})
+# ✅ Create Order API
+@csrf_exempt
+def create_order(request):
+
+    if request.method == "POST":
+
+        data = json.loads(request.body)
+
+        amount = int(data["amount"]) * 100
+
+        payment = client.order.create({
+            "amount": amount,
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+
+        return JsonResponse({
+            "order_id": payment["id"],
+            "amount": payment["amount"],
+            "key": settings.RAZORPAY_KEY_ID
+        })
+
+
+# ✅ Verify Payment API
+@csrf_exempt
+def payment_verify(request):
+
+    if request.method == "POST":
+
+        body = json.loads(request.body)
+
+        print(body)
+
+        return JsonResponse({
+            "status": "success"
+        })

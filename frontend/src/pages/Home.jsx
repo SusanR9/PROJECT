@@ -3,7 +3,7 @@ import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-// ✅ Products with FIXED image paths
+// ✅ Products
 const products = [
   { id: 1, name: "Shirt", price: 500, image: "shirt.jpg" },
   { id: 2, name: "Shoes", price: 1200, image: "shoes.jpg" },
@@ -28,32 +28,30 @@ const Home = () => {
 
   const [index, setIndex] = useState(0);
 
-  // 🔄 rotate quotes
+  // 🔄 rotating quotes
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % quotes.length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
 
-      {/* 🔥 BANNER */}
+      {/* 🔥 Banner */}
       <div className="banner">
         <h1>FW Fashion World</h1>
         <p>{quotes[index]}</p>
       </div>
 
-      {/* 🛍️ PRODUCTS */}
+      {/* 🛍️ Products */}
       <div className="product-grid">
         {products.map((p) => (
           <div key={p.id} className="product-card">
 
-            {/* ✅ FIXED IMAGE PATH */}
             <img
-              src={`/static/${p.image}`}
+              src={`/assets/${p.image}`}
               alt={p.name}
               className="product-img"
             />
@@ -62,15 +60,18 @@ const Home = () => {
             <p className="price">₹{p.price}</p>
 
             <div className="btn-group">
+
+              {/* ADD TO CART */}
               <button
                 onClick={() => {
                   addToCart(p);
-                  navigate("/cart");
+                  alert("Added to cart ✅");
                 }}
               >
                 Add to Cart
               </button>
 
+              {/* BUY NOW */}
               <button
                 className="buy"
                 onClick={() => {
@@ -80,6 +81,7 @@ const Home = () => {
               >
                 Buy Now
               </button>
+
             </div>
 
           </div>

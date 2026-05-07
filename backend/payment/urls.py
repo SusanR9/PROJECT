@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path # type: ignore
 from .views import create_order
 from .views import signup
 urlpatterns = [

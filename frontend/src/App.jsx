@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const Layout = ({ children }) => {
   return (
@@ -39,9 +40,10 @@ function App() {
         <Route path="/blog" element={<Layout><Blog /></Layout>} />
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
         <Route path="/success" element={<Success />} />
+        <Route path="/success" element={<PaymentSuccess />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-export default App;
+export default App;//
